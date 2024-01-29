@@ -61,27 +61,38 @@ class ImageViewerApp(QMainWindow):
 
     def display_image(self, input_image, image_type="original"):
         width, height = input_image.size
-        resize_ratio = 300/max(width, height)
-        new_width = int(resize_ratio*width)
-        new_height = int(resize_ratio*height)
-        print(input_image.size)
-        input_image = input_image.resize((new_width,new_height))
+        max_dimension = 300  # Set the max dimension for width or height
 
-        q_image = self.convert_pil_to_qimage(input_image)
+        # Calculate the scale factor while maintaining the aspect ratio
+        scale_factor = min(max_dimension / width, max_dimension / height)
+        new_width = int(scale_factor * width)
+        new_height = int(scale_factor * height)
+
+        # Resize the image with the new dimensions
+        resized_image = input_image.resize((new_width, new_height))
+
+        # Convert to QImage and then to QPixmap
+        q_image = self.convert_pil_to_qimage(resized_image)
         pixmap = QPixmap.fromImage(q_image)
 
+        # Get the appropriate label based on image type
         if image_type == "original":
-            self.ui_form.image_label.setPixmap(pixmap)
+            label = self.ui_form.image_label
         elif image_type == "histogram":
-            self.ui_form.image_hist_label.setPixmap(pixmap)
+            label = self.ui_form.image_hist_label
         elif image_type == "average":
-            self.ui_form.image_average_label.setPixmap(pixmap)
+            label = self.ui_form.image_average_label
         elif image_type == "median":
-            self.ui_form.image_median_label.setPixmap(pixmap)
+            label = self.ui_form.image_median_label
         elif image_type == "kapur":
-            self.ui_form.image_kapur_label.setPixmap(pixmap)
+            label = self.ui_form.image_kapur_label
         elif image_type == "otsu":
-            self.ui_form.image_otsu_label.setPixmap(pixmap)
+            label = self.ui_form.image_otsu_label
+
+        # Set the pixmap and adjust label size
+        label.setPixmap(pixmap)
+        label.setFixedSize(new_width, new_height)
+        label.setScaledContents(False)  # Preserve the aspect ratio
     
     def show_hist(self):
         r, g, b = self.image.split()

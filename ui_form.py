@@ -8,7 +8,7 @@ class UIForm(QWidget):
         self.init_ui()
 
     def init_ui(self):
-        main_layout = QVBoxLayout(self)
+        main_layout = QHBoxLayout(self)
 
         # Image Display Section
         image_layout = QGridLayout()
@@ -47,7 +47,7 @@ class UIForm(QWidget):
         self.image_average_label = QLabel("Placeholder:")
         average_layout.addWidget(self.image_average_label)
         average_group.setLayout(average_layout)
-        layout.addWidget(average_group, 0, 2)
+        layout.addWidget(average_group, 1, 0)
 
         # Median Image Filter Group
         median_group = QGroupBox("Median Image Filter")
@@ -55,7 +55,7 @@ class UIForm(QWidget):
         self.image_median_label = QLabel("Placeholder:")
         median_layout.addWidget(self.image_median_label)
         median_group.setLayout(median_layout)
-        layout.addWidget(median_group, 1, 0)
+        layout.addWidget(median_group, 1, 1)
 
         # Kapur Segmentation Group
         kapur_group = QGroupBox("Kapur Segmentation")
@@ -63,7 +63,7 @@ class UIForm(QWidget):
         self.image_kapur_label = QLabel("Placeholder:")
         kapur_layout.addWidget(self.image_kapur_label)
         kapur_group.setLayout(kapur_layout)
-        layout.addWidget(kapur_group, 1, 1)
+        layout.addWidget(kapur_group, 2, 0)
 
         # Otsu Segmentation Group
         otsu_group = QGroupBox("Otsu Segmentation")
@@ -71,11 +71,11 @@ class UIForm(QWidget):
         self.image_otsu_label = QLabel("Placeholder:")
         otsu_layout.addWidget(self.image_otsu_label)
         otsu_group.setLayout(otsu_layout)
-        layout.addWidget(otsu_group, 1, 2)
+        layout.addWidget(otsu_group, 2, 1)
 
         # Choose image button
         self.choose_button = QPushButton("Choose Image")
-        layout.addWidget(self.choose_button, 2, 0, 1, 3)
+        layout.addWidget(self.choose_button, 3, 0, 1, 2)
 
         # ... add other image related widgets here with layout.addWidget(widget, row, column)
 
@@ -114,7 +114,7 @@ class UIForm(QWidget):
         average_layout.addWidget(self.average_mask_size_line_edit)
         # ... add other average filter related widgets here => DONE
         average_group.setLayout(average_layout)
-        layout.addWidget(average_group, 0, 1)
+        layout.addWidget(average_group, 1, 0)
 
         # Median Filter Group
         median_group = QGroupBox("Median Filter")
@@ -130,7 +130,7 @@ class UIForm(QWidget):
         median_layout.addWidget(self.median_mask_size_line_edit)
         # ... add other median filter related widgets here => DONE
         median_group.setLayout(median_layout)
-        layout.addWidget(median_group, 0, 2)
+        layout.addWidget(median_group, 2, 0)
 
         # Kapur Segmentation Group
         kapur_group = QGroupBox("Kapur Segmentation")
@@ -139,7 +139,7 @@ class UIForm(QWidget):
         kapur_layout.addWidget(self.kapur_button)
 
         kapur_group.setLayout(kapur_layout)
-        layout.addWidget(kapur_group, 0, 3)
+        layout.addWidget(kapur_group, 3, 0)
 
         # Otsu Segmentation Group
         otsu_group = QGroupBox("Otsu Segmentation")
@@ -148,7 +148,7 @@ class UIForm(QWidget):
         otsu_layout.addWidget(self.otsu_button)
 
         otsu_group.setLayout(otsu_layout)
-        layout.addWidget(otsu_group, 0, 4)
+        layout.addWidget(otsu_group, 4, 0)
 
         # ... add other filter groups similarly
 
