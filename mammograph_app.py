@@ -7,6 +7,7 @@ from PIL import Image, ImageOps, ImageFilter
 import numpy as np
 from scipy.signal import convolve2d
 from scipy.ndimage import median_filter
+from PyQt5.QtGui import QFont, QIcon
 
 class ImageViewerApp(QMainWindow):
     def __init__(self):
@@ -18,7 +19,6 @@ class ImageViewerApp(QMainWindow):
         # Create and set up the UI form
         self.ui_form = UIForm()
         self.setCentralWidget(self.ui_form)
-        self.setWindowTitle('Image Processor App')
 
         # Setup connections for UI elements
         self.setup_connections()
@@ -228,6 +228,11 @@ def main():
     app = QApplication(sys.argv)
     window = ImageViewerApp()
     window.setWindowTitle("Medical Image Filters")
+    window.setFont(QFont("Arial", 12))
+
+    # Set the background color
+    # window.setStyleSheet("background-color: #f0f0f0;")  # Light gray background
+
     window.showMaximized()
     sys.exit(app.exec_())
 

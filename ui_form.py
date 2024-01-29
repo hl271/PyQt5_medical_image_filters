@@ -2,6 +2,7 @@
 from PyQt5.QtWidgets import (QWidget, QPushButton, QLabel, QLineEdit, QComboBox, QSpinBox,
                              QVBoxLayout, QHBoxLayout, QGridLayout, QGroupBox, QApplication)
 
+
 class UIForm(QWidget):
     def __init__(self):
         super().__init__()
@@ -20,7 +21,7 @@ class UIForm(QWidget):
         self.setup_filter_widgets(filter_layout)
         main_layout.addLayout(filter_layout)
 
-        self.setWindowTitle("Image Processing UI")
+        
 
     def setup_image_widgets(self, layout):
         # Define image widgets and their positions in the grid
