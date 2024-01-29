@@ -13,56 +13,27 @@ class ImageViewerApp(QMainWindow):
 
         self.init_ui()
 
-        # Widget for images
-        self.image_label = self.ui_form.image_label
-        self.image_hist_label = self.ui_form.image_hist_label
-        self.image_average_label = self.ui_form.image_average_label
-        self.image_median_label = self.ui_form.image_median_label
-        # Choose Image
-        self.choose_button = self.ui_form.choose_button
-        self.choose_button.clicked.connect(self.choose_image)
-
-        # Histogram
-        self.histogram_button = self.ui_form.histogram_button
-        self.histogram_button.clicked.connect(self.show_hist)
-        self.histogram_eq_button = self.ui_form.histogram_eq_button
-        self.histogram_eq_button.clicked.connect(self.hist_equalize)
-        self.histogram_psnr_label = self.ui_form.histogram_psnr_label
-
-        # Average Filter
-        self.average_button = self.ui_form.average_button
-        self.average_button.clicked.connect(self.average_filt)
-        self.average_psnr_label = self.ui_form.average_psnr_label
-        self.mask_size_label = self.ui_form.mask_size_label
-        self.mask_size_line_edit = self.ui_form.mask_size_line_edit
-        self.mask_shape_label = self.ui_form.mask_shape_label
-        self.mask_shape_combo_box = self.ui_form.mask_shape_combo_box
-
-        # Median Filter
-        self.median_button = self.ui_form.median_button
-        self.median_button.clicked.connect(self.median_filt)
-        self.median_psnr_label = self.ui_form.median_psnr_label
-        self.median_mask_size_label = self.ui_form.median_mask_size_label
-        self.median_mask_size_line_edit = self.ui_form.median_mask_size_line_edit
-
-        # Kapur's segmentation
-        self.image_kapur_label = self.ui_form.image_kapur_label
-        self.kapur_button = self.ui_form.kapur_button
-        self.kapur_button.clicked.connect(self.kapur_threshold)
-
-        # Otsu's segmentation
-        self.image_otsu_label = self.ui_form.image_otsu_label
-        self.otsu_button = self.ui_form.otsu_button
-        self.otsu_button.clicked.connect(self.otsu_threshold)
-
-        # Image path
-        self.image_path = None
-
     def init_ui(self):
         # Create and set up the UI form
         self.ui_form = UIForm()
         self.setCentralWidget(self.ui_form)
         self.setWindowTitle('Image Processor App')
+
+        # Setup connections for UI elements
+        self.setup_connections()
+
+    def setup_connections(self):
+        # Connect UI elements from ui_form
+        self.ui_form.choose_button.clicked.connect(self.choose_image)
+        self.ui_form.histogram_button.clicked.connect(self.show_hist)
+        self.ui_form.histogram_eq_button.clicked.connect(self.hist_equalize)
+        self.ui_form.average_button.clicked.connect(self.average_filt)
+        self.ui_form.median_button.clicked.connect(self.median_filt)
+        self.ui_form.kapur_button.clicked.connect(self.kapur_threshold)
+        self.ui_form.otsu_button.clicked.connect(self.otsu_threshold)
+
+        # Other attributes
+        self.image_path = None
 
     def choose_image(self):
         options = QFileDialog.Options()
@@ -99,17 +70,17 @@ class ImageViewerApp(QMainWindow):
         pixmap = QPixmap.fromImage(q_image)
 
         if image_type == "original":
-            self.image_label.setPixmap(pixmap)
+            self.ui_form.image_label.setPixmap(pixmap)
         elif image_type == "histogram":
-            self.image_hist_label.setPixmap(pixmap)
+            self.ui_form.image_hist_label.setPixmap(pixmap)
         elif image_type == "average":
-            self.image_average_label.setPixmap(pixmap)
+            self.ui_form.image_average_label.setPixmap(pixmap)
         elif image_type == "median":
-            self.image_median_label.setPixmap(pixmap)
+            self.ui_form.image_median_label.setPixmap(pixmap)
         elif image_type == "kapur":
-            self.image_kapur_label.setPixmap(pixmap)
+            self.ui_form.image_kapur_label.setPixmap(pixmap)
         elif image_type == "otsu":
-            self.image_otsu_label.setPixmap(pixmap)
+            self.ui_form.image_otsu_label.setPixmap(pixmap)
     
     def show_hist(self):
         r, g, b = self.image.split()
@@ -145,12 +116,12 @@ class ImageViewerApp(QMainWindow):
 
         self.display_image(equalized_image, "histogram")
         self.histogram_psnr = self.calculate_psnr(self.image, equalized_image)
-        self.histogram_psnr_label.setText("PSNR: {:.2f}".format(self.histogram_psnr))
+        self.ui_form.histogram_psnr_label.setText("PSNR: {:.2f}".format(self.histogram_psnr))
 
     def average_filt(self):
         input_image = self.image
-        mask_shape = self.mask_shape_combo_box.currentText()
-        mask_size = int(self.mask_size_line_edit.text())
+        mask_shape = self.ui_form.average_mask_shape_combo_box.currentText()
+        mask_size = int(self.ui_form.average_mask_size_line_edit.text())
         if input_image.mode == 'RGB':
             input_image = ImageOps.grayscale(input_image)
 
@@ -175,11 +146,11 @@ class ImageViewerApp(QMainWindow):
 
         self.display_image(filtered_image, "average")
         self.average_psnr = self.calculate_psnr(self.image, filtered_image)
-        self.average_psnr_label.setText("PSNR: {:.2f}".format(self.average_psnr))
+        self.ui_form.average_psnr_label.setText("PSNR: {:.2f}".format(self.average_psnr))
     
     def median_filt(self):
         input_image = self.image
-        kernel_size = int(self.median_mask_size_line_edit.text())
+        kernel_size = int(self.ui_form.median_mask_size_line_edit.text())
         if input_image.mode == 'RGB':
             input_image = input_image.convert('L')
         input_array = np.array(input_image)
@@ -202,7 +173,7 @@ class ImageViewerApp(QMainWindow):
 
         self.display_image(filtered_image, "median")
         self.median_psnr = self.calculate_psnr(self.image, filtered_image)
-        self.median_psnr_label.setText("PSNR: {:.2f}".format(self.median_psnr))
+        self.ui_form.median_psnr_label.setText("PSNR: {:.2f}".format(self.median_psnr))
 
     def kapur_threshold(self):
         input_image = self.image
