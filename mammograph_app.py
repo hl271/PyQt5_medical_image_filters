@@ -6,6 +6,7 @@ from ui_form import UIForm
 from PIL import Image, ImageOps, ImageFilter
 import numpy as np
 from scipy.signal import convolve2d
+from scipy.ndimage import median_filter
 
 class ImageViewerApp(QMainWindow):
     def __init__(self):
@@ -155,19 +156,8 @@ class ImageViewerApp(QMainWindow):
             input_image = input_image.convert('L')
         input_array = np.array(input_image)
 
-        height, width = input_array.shape
-
-        # Define the half-size of the kernel
-        half_kernel_size = kernel_size // 2
-
-        # Create a new array for the filtered image
-        filtered_array = np.zeros((height, width), dtype=np.uint8)
-
-        for i in range(half_kernel_size, height - half_kernel_size):
-            for j in range(half_kernel_size, width - half_kernel_size):
-                neighborhood = input_array[i - half_kernel_size:i + half_kernel_size + 1,
-                                        j - half_kernel_size:j + half_kernel_size + 1]
-                filtered_array[i, j] = np.median(neighborhood)
+        # Apply median filter using scipy
+        filtered_array = median_filter(input_array, size=kernel_size)
 
         filtered_image = Image.fromarray(filtered_array).convert("RGB")
 
@@ -237,7 +227,7 @@ class ImageViewerApp(QMainWindow):
 def main():
     app = QApplication(sys.argv)
     window = ImageViewerApp()
-    window.setWindowTitle("Image Viewer App")
+    window.setWindowTitle("Medical Image Filters")
     window.showMaximized()
     sys.exit(app.exec_())
 

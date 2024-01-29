@@ -1,5 +1,5 @@
 # File: ui_form.py
-from PyQt5.QtWidgets import (QWidget, QPushButton, QLabel, QLineEdit, QComboBox, 
+from PyQt5.QtWidgets import (QWidget, QPushButton, QLabel, QLineEdit, QComboBox, QSpinBox,
                              QVBoxLayout, QHBoxLayout, QGridLayout, QGroupBox, QApplication)
 
 class UIForm(QWidget):
@@ -24,22 +24,58 @@ class UIForm(QWidget):
 
     def setup_image_widgets(self, layout):
         # Define image widgets and their positions in the grid
-        self.image_label = QLabel('Enter Text:')
-        self.image_hist_label = QLabel("Histogram:")
-        self.image_average_label = QLabel("Average Filter:")
-        self.image_median_label = QLabel("Median Filter:")
-        self.image_kapur_label = QLabel("Kapur:")
-        self.image_otsu_label = QLabel("Otsu:")
-        layout.addWidget(self.image_label, 1, 1)
-        layout.addWidget(self.image_hist_label, 1, 2)
-        layout.addWidget(self.image_average_label, 2, 1)
-        layout.addWidget(self.image_median_label, 2, 2)
-        layout.addWidget(self.image_kapur_label, 3, 1)
-        layout.addWidget(self.image_otsu_label, 3, 2)
+
+        # Original Image Group
+        origin_group = QGroupBox("Original Image")
+        origin_layout = QVBoxLayout()
+        self.image_label = QLabel('Placeholder:')
+        origin_layout.addWidget(self.image_label)
+        origin_group.setLayout(origin_layout)
+        layout.addWidget(origin_group, 0, 0)
+
+        # Histogram Group
+        histogram_group = QGroupBox("Histogram Image")
+        histogram_layout = QVBoxLayout()
+        self.image_hist_label = QLabel("Placeholder:")
+        histogram_layout.addWidget(self.image_hist_label)
+        histogram_group.setLayout(histogram_layout)
+        layout.addWidget(histogram_group, 0, 1)
+
+        # Average Image Filter Group
+        average_group = QGroupBox("Average Image Filter")
+        average_layout = QVBoxLayout()
+        self.image_average_label = QLabel("Placeholder:")
+        average_layout.addWidget(self.image_average_label)
+        average_group.setLayout(average_layout)
+        layout.addWidget(average_group, 0, 2)
+
+        # Median Image Filter Group
+        median_group = QGroupBox("Median Image Filter")
+        median_layout = QVBoxLayout()
+        self.image_median_label = QLabel("Placeholder:")
+        median_layout.addWidget(self.image_median_label)
+        median_group.setLayout(median_layout)
+        layout.addWidget(median_group, 1, 0)
+
+        # Kapur Segmentation Group
+        kapur_group = QGroupBox("Kapur Segmentation")
+        kapur_layout = QVBoxLayout()
+        self.image_kapur_label = QLabel("Placeholder:")
+        kapur_layout.addWidget(self.image_kapur_label)
+        kapur_group.setLayout(kapur_layout)
+        layout.addWidget(kapur_group, 1, 1)
+
+        # Otsu Segmentation Group
+        otsu_group = QGroupBox("Otsu Segmentation")
+        otsu_layout = QVBoxLayout()
+        self.image_otsu_label = QLabel("Placeholder:")
+        otsu_layout.addWidget(self.image_otsu_label)
+        otsu_group.setLayout(otsu_layout)
+        layout.addWidget(otsu_group, 1, 2)
 
         # Choose image button
         self.choose_button = QPushButton("Choose Image")
-        layout.addWidget(self.choose_button, 4, 1, 1, 2)
+        layout.addWidget(self.choose_button, 2, 0, 1, 3)
 
         # ... add other image related widgets here with layout.addWidget(widget, row, column)
 
@@ -63,8 +99,8 @@ class UIForm(QWidget):
         average_layout = QVBoxLayout()
         self.average_button = QPushButton("Show Average Filter")
         self.average_psnr_label = QLabel("PSNR:")
-        self.average_mask_size_label = QLabel("Enter Kernel Size (integer number):")
-        self.average_mask_size_line_edit = QLineEdit()
+        self.average_mask_size_label = QLabel("Choose Kernel Size :")
+        self.average_mask_size_line_edit = QSpinBox()
         self.average_mask_shape_combo_box = QComboBox()
         self.average_mask_shape_combo_box.addItem("Average")
         self.average_mask_shape_combo_box.addItem("Gaussian")
@@ -85,8 +121,8 @@ class UIForm(QWidget):
         median_layout = QVBoxLayout()
         self.median_button = QPushButton("Show Median Filter")
         self.median_psnr_label = QLabel("PSNR:")
-        self.median_mask_size_label = QLabel("Enter Kernel Size (integer number):")
-        self.median_mask_size_line_edit = QLineEdit()
+        self.median_mask_size_label = QLabel("Choose Kernel Size :")
+        self.median_mask_size_line_edit = QSpinBox()
 
         median_layout.addWidget(self.median_button)
         median_layout.addWidget(self.median_psnr_label)
