@@ -354,8 +354,9 @@ class ImageViewerApp(QMainWindow):
 def main():
     app = QApplication(sys.argv)
     window = ImageViewerApp()
-    window.setWindowTitle("Medical Image Filters")
+    window.setWindowTitle("Image Processor App")
     window.setFont(QFont("Arial", 12))
+    window.setStyleSheet("QGroupBox:title {font-weight: bold;}")
 
     # Set the background color
     # window.setStyleSheet("background-color: #f0f0f0;")  # Light gray background
