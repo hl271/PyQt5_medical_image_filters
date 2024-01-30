@@ -8,7 +8,7 @@ class UIForm(QWidget):
         self.init_ui()
 
     def init_ui(self):
-        main_layout = QHBoxLayout(self)
+        main_layout = QVBoxLayout(self)
 
         # Image Display Section
         image_layout = QGridLayout()
@@ -16,7 +16,7 @@ class UIForm(QWidget):
         main_layout.addLayout(image_layout)
 
         # Filter and Segmentation Options Section
-        process_layout = QVBoxLayout()
+        process_layout = QHBoxLayout()
         self.setup_filter_segmentation_widgets(process_layout)
         main_layout.addLayout(process_layout)
 
